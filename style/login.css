@@ -1,0 +1,22 @@
+.btn_submit {
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+fieldset {
+    padding: 20px;
+    display: flex;
+    flex-flow: column wrap;
+    gap: 20px;
+    width: 40%;
+    margin: auto;
+}
+
+fieldset div {
+    margin: auto;
+}
+
+label {
+    margin-right: 15px;
+}
