@@ -1,7 +1,59 @@
+html, body {
+    height: 100%;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;    
+}
+
+.container {
+    flex-grow: 1;
+}
+
+h1  {
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+}
+
+header {
+    margin-right: 30px;
+    margin-top: 30px;
+}
+
+nav ul {
+    display: flex;
+    flex-flow: row wrap;
+    list-style: none;
+    justify-content: right;
+    align-items: center;
+}
+
+nav ul li {
+    vertical-align: auto;
+}
+
+a {
+    font-style: normal;
+    text-decoration: none;
+    padding: 10px;
+    color: black;
+}
+
+.logout {
+    width: 32px;
+    height: 32px;
+}
+
 .btn_submit {
     padding: 5px;
     padding-left: 20px;
     padding-right: 20px;
+    margin: auto;
 }
 
 fieldset {
@@ -19,7 +71,12 @@ fieldset div {
     align-items: center;
     /* Aligne verticalement les labels et inputs */
     width: 50%;
-    margin:auto;
+    margin: auto;
+}
+
+fieldset div a {
+    padding: 0px;
+    margin: auto;
 }
 
 label {
@@ -43,6 +100,13 @@ input {
 
 .input_error {
     border-color: red;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .error_nickname {
