@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once(__DIR__ . '/config/mysql.php');
     require_once(__DIR__ . '/database_connect.php');
     require_once(__DIR__ . '/variables.php');
@@ -18,12 +19,25 @@
         if (filter_var($identifiant, FILTER_VALIDATE_EMAIL)) {
             // On regarde si l'e-mail et le mdp correspondent en bdd
             $email = $identifiant;
-            $query = $mysqlClient->prepare('SELECT * FROM users WHERE email = :email AND password = :password');
+            $query = $mysqlClient->prepare('SELECT * FROM users WHERE email = :email');
             $query->execute([
-                'email' => $email,
-                'password' => $password,
+                'email' => $email
             ]);
             $user = $query->fetch();
+
+            if (isset($user['password']) && password_verify($password, $user['password'])) {
+                $_SESSION['user']['id'] = $user['id'];
+                $_SESSION['user']['nickname'] = $user['nickname'];
+                $_SESSION['user']['email'] = $user['email'];
+                $_SESSION['user']['register_date'] = $user['register_date'];
+                $_SESSION['user']['url_avatar'] = $user['url_avatar'];
+                redirectToUrl('login.php');
+                exit;
+            } else {
+                $_SESSION['error'] = "Erreur d'authentification, veuillez réessayer";
+                redirectToUrl('login.php');
+                exit;
+            }
         } else {
             // Ce n'est pas un e-mail ou alors il est invalide
             // On lance donc la vérification du pseudo et s'il existe ou non en bdd et s'il correspond au mdp saisi
@@ -31,28 +45,34 @@
                 // Ici, on a une saisie utilisateur de type "texte" on va donc se prémunir de failles XSS et d'injection SQL
                 $nickname = htmlspecialchars($identifiant);
                 
-                $query = $mysqlClient->prepare('SELECT * FROM users WHERE nickname = :nickname AND password = :password');
+                $query = $mysqlClient->prepare('SELECT * FROM users WHERE nickname = :nickname');
                 $query->execute([
                     'nickname' => $nickname,
-                    'password' => $password,
                 ]);
                 $user = $query->fetch();
-            }
-            
-            if (!empty($user)) {
-                session_start();
-                $_SESSION['user']['nickname'] = $user['nickname'];
-                $_SESSION['user']['register_date'] = $user['register_date'];
-                $_SESSION['user']['email'] = $user['email'];
-                $_SESSION['user']['avatar'] = $user['avatar'];
-                redirectToUrl('index.php');
+
+                if (isset($user['password']) && password_verify($password, $user['password'])) {
+                    $_SESSION['user']['id'] = $user['id'];
+                    $_SESSION['user']['nickname'] = $user['nickname'];
+                    $_SESSION['user']['email'] = $user['email'];
+                    $_SESSION['user']['register_date'] = $user['register_date'];
+                    $_SESSION['user']['url_avatar'] = $user['url_avatar'];
+                    redirectToUrl('login.php');
+                    exit;
+                } else {
+                    $_SESSION['error'] = "Erreur d'authentification, veuillez réessayer";
+                    redirectToUrl('login.php');
+                    exit;
+                }
             } else {
-                echo "Erreur d'authentification";
+                $_SESSION['error'] = "Erreur d'authentification, veuillez réessayer";
                 redirectToUrl('login.php');
+                exit;
             }
         }
     } else {
-        echo "Veuillez renseigner les champs 'E-mail ou Pseudo', et 'Mot de passe'";
+        $_SESSION['error'] = "Veuillez renseigner les champs 'E-mail ou Pseudo', et 'Mot de passe'";
         redirectToUrl('login.php');
+        exit;
     }
 ?>
