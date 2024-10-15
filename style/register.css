@@ -13,7 +13,47 @@ fieldset {
     padding: 20px;
 }
 
+fieldset div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Aligne verticalement les labels et inputs */
+    width: 50%;
+    margin:auto;
+}
+
+label {
+    width: 30%;
+    /* Largeur fixe pour aligner les labels */
+    text-align: right;
+    /* Aligner le texte des labels à droite */
+    margin-right: 10px;
+}
+
+input {
+    width: 70%;
+    /* Largeur des champs de saisie */
+}
+
 .div_submit {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
+    width: 30%;
+}
+
+.input_error {
+    border-color: red;
+}
+
+.error_nickname {
+    color: red;
+}
+
+@media all and (max-width:960px) {
+
+    fieldset,
+    fieldset div,
+    .div_submit {
+        width: 80%;
+    }
 }

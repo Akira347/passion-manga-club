@@ -36,7 +36,21 @@
                         <input type="password" name="password" id="password" required>
                     </div>
                     <div class="div_submit">
-                        <input type="submit" class="btn_submit" value="Envoyer">
+                        <input type="submit" class="btn_submit" value="Se connecter">
+                    </div>
+                    <?php if (isset($_SESSION['error'])): ?>
+                        <div class="error-message">
+                            <?php 
+                                echo $_SESSION['error']; 
+                                unset($_SESSION['error']); // Supprime le message d'erreur après affichage
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                    <div>
+                        <a href="#">Identifiant ou mot de passe oublié ?</a>
+                    </div>
+                    <div>
+                        <a href="register.php">Pas ce compte ? Inscrivez-vous</a>
                     </div>
                 </fieldset>
             </form>
