@@ -7,10 +7,10 @@ au fur et à mesure de l'avancement de la formation.
 
 Voici les étiquettes :
 <ul>
-<li><a href="https://github.com/Akira347/passion-manga-club/tree/v0.1">PHP procédural : Authentification</a></li>
-<li><a href="https://github.com/Akira347/passion-manga-club/tree/v0.2">Transformation du code existant vers POO/MVC</a></li>
+<li><a href="https://github.com/Akira347/passion-manga-club/tree/v0.1">v0.1 - PHP procédural : Authentification</a></li>
+<li><a href="https://github.com/Akira347/passion-manga-club/tree/v0.2">v0.2 - Transformation du code existant vers POO/MVC</a></li>
 <li>
-    <a href="https://github.com/Akira347/passion-manga-club/tree/v0.3">Optimisation et Implémentation des fonctionnalités de Recherche, de Recommandation et d'affichages de Mangas recommandés</a> :
+    <a href="https://github.com/Akira347/passion-manga-club/tree/v1.0">v1.0 - Optimisation et Implémentation des fonctionnalités de Recherche, de Recommandation et d'affichages de Mangas recommandés</a> :
     <ul>
         <li>Ajout de la fonction d'autoload pour require_once nos classes uniquement lorsqu'on en a besoin,</li>
         <li>Ajout de Composer et de son autoload notamment pour Guzzle 7 à des fins de requêtage sur l'API autour des Mangas utilisant Graph QL : Anilist,</li>
