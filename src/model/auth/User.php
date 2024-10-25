@@ -1,10 +1,8 @@
 <?php
 
-namespace Application\Model\Auth\User;
+namespace Application\Model\Auth;
 
-require_once('src/lib/database.php');
-
-use Application\Lib\Database\DatabaseConnection;
+use Application\Lib\DatabaseConnection;
 
 class User {
     protected string $nickname;
@@ -17,7 +15,7 @@ class User {
     /*
         Surcharge de la fonction invoke car l'identifiant de l'User peut être un pseudo ou l'email
     */
-    public function __invoke(string $identifiant) {
+    public function __construct(string $identifiant) {
         // On vérifie si on a un e-mail
         if (filter_var($identifiant, FILTER_VALIDATE_EMAIL)) {
             // On regarde si l'e-mail et le mdp correspondent en bdd
@@ -86,19 +84,19 @@ class User {
         $database = new DatabaseConnection();
         $user = null;
         if (isset($this->email)) {
-            $query = $database->getConnection()->prepare('SELECT * FROM users WHERE email = :email');
-            $query->execute([
+            $smtp = $database->getConnection()->prepare('SELECT * FROM users WHERE email = :email');
+            $smtp->execute([
                 'email' => $this->email,
             ]);
-            $user = $query->fetch();
+            $user = $smtp->fetch();
         } else {
             // C'est un pseudo ou un email invalide
             if (isset($this->nickname)) {
-                $query = $database->getConnection()->prepare('SELECT * FROM users WHERE nickname = :nickname');
-                $query->execute([
+                $smtp = $database->getConnection()->prepare('SELECT * FROM users WHERE nickname = :nickname');
+                $smtp->execute([
                     'nickname' => $this->nickname,
                 ]);
-                $user = $query->fetch();
+                $user = $smtp->fetch();
             } else {
                 $_SESSION['error'] = "Veuillez renseigner les champs 'E-mail ou Pseudo', et 'Mot de passe'";
                 return false;
@@ -125,11 +123,11 @@ class User {
         $database = new DatabaseConnection();
 
         // Vérification en bdd que l'e-mail n'est pas déjà utilisé
-        $query = $database->getConnection()->prepare('SELECT COUNT(*) as email_exist FROM users WHERE email = :email');
-        $query->execute([
+        $smtp = $database->getConnection()->prepare('SELECT COUNT(*) as email_exist FROM users WHERE email = :email');
+        $smtp->execute([
             'email' => $this->email,
         ]);
-        $result = $query->fetch();
+        $result = $smtp->fetch();
         
         if ($result['email_exist'] > 0) {
             $_SESSION['error'] = "Cet e-mail est déjà utilisé, veuillez vous connecter ou passer par Mot de passe oublié";
@@ -142,11 +140,11 @@ class User {
             mais on n'en fera pas dans cette version)
             À défaut de cela, on va sauvegarder les données saisies et indiquer une erreur de doublon du pseudonyme au visiteur
         */
-        $query = $database->getConnection()->prepare('SELECT COUNT(*) as nickname_exist FROM users WHERE nickname = :nickname');
-        $query->execute([
+        $smtp = $database->getConnection()->prepare('SELECT COUNT(*) as nickname_exist FROM users WHERE nickname = :nickname');
+        $smtp->execute([
             'nickname' => $this->nickname,
         ]);
-        $result = $query->fetch();
+        $result = $smtp->fetch();
         
         if ($result['nickname_exist'] > 0) {
             $_SESSION['error_nickname_already_exist'] = "Ce pseudonyme est déjà utilisé, veuillez en saisir un autre";
@@ -164,8 +162,8 @@ class User {
         $register_date = date('Y-m-d');
 
         // On enregistre le visiteur en bdd
-        $query = $database->getConnection()->prepare('INSERT INTO users (nickname, email, password, register_date, url_avatar) VALUES(:nickname, :email, :password, :register_date, :url_avatar)');
-        $query->execute([
+        $smtp = $database->getConnection()->prepare('INSERT INTO users (nickname, email, password, register_date, url_avatar) VALUES(:nickname, :email, :password, :register_date, :url_avatar)');
+        $smtp->execute([
             'nickname' => $this->nickname,
             'email' => $this->email,
             'password' => $password_hash,

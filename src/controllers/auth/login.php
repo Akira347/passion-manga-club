@@ -1,12 +1,9 @@
 <?php
 
-namespace Application\Controllers\Auth\Login;
+namespace Application\Controllers\Auth;
 
-require_once('src/model/auth/user.php');
-require_once('src/controllers/homepage.php');
-
-use \Application\Controllers\Homepage\Homepage;
-use \Application\Model\Auth\User\User;
+use \Application\Controllers\Homepage;
+use \Application\Model\Auth\User;
 
 class Login
 {
@@ -22,10 +19,17 @@ class Login
                 $user->setPassword($password);
                 $success = $user->login();
                 
-                if ($success) {
-                    require('templates/homepage.php');
+                // Si la connexion a été réalisée depuis une autre page que login, on souhaite rediriger l'utilisateur vers cette dernière, que la connexion soit un succès ou non
+                if (isset($_POST['redirect_url']) && !empty($_POST['redirect_url'])) {
+                    $redirect_url = $_POST['redirect_url'];
+                    header('Location: '. $redirect_url);
+                    exit;
                 } else {
-                    require('templates/login.php');
+                    if ($success) {
+                        require('templates/homepage.php');
+                    } else {
+                        require('templates/login.php');
+                    }
                 }
             } else {
                 require('templates/login.php');

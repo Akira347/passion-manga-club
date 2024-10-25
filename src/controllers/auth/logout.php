@@ -1,12 +1,9 @@
 <?php
 
-namespace Application\Controllers\Auth\Logout;
+namespace Application\Controllers\Auth;
 
-require_once('src/model/auth/user.php');
-require_once('src/controllers/homepage.php');
-
-use \Application\Controllers\Homepage\Homepage;
-use \Application\Model\Auth\User\User;
+use \Application\Controllers\Homepage;
+use \Application\Model\Auth\User;
 
 class Logout
 {

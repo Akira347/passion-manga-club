@@ -1,14 +1,33 @@
 <?php
 session_start();
-require_once('src/controllers/auth/login.php');
-require_once('src/controllers/auth/logout.php');
-require_once('src/controllers/auth/register.php');
-require_once('src/controllers/homepage.php');
 
-use Application\Controllers\Homepage\Homepage;
-use Application\Controllers\Auth\Login\Login;
-use Application\Controllers\Auth\Logout\Logout;
-use Application\Controllers\Auth\Register\Register;
+spl_autoload_register(function ($class) {
+    $prefix = 'Application\\';
+    $base_dir = __DIR__ . '/src/';
+
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) {
+        return;
+    }
+
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+
+    if (file_exists($file)) {
+        require $file;
+    }
+});
+
+require 'vendor/autoload.php';
+
+use Application\Controllers\Homepage;
+use Application\Controllers\Auth\Login;
+use Application\Controllers\Auth\Logout;
+use Application\Controllers\Auth\Register;
+use Application\Controllers\Manga\Recommend;
+use Application\Controllers\Manga\Search;
+use Application\Controllers\Manga\Mangas;
+use Application\Controllers\Manga\MangaSheet;
 
 try {
     /*
@@ -29,6 +48,14 @@ try {
         case 'register': (new Register())->execute();
             break;
         case 'logout': (new Logout())->execute();
+            break;
+        case 'recommend': (new Recommend())->execute();
+            break;
+        case 'search': (new Search())->execute();
+            break;
+        case 'mangas': (new Mangas())->execute();
+            break;
+        case 'manga': (new MangaSheet())->execute();
             break;
         default: (new Homepage())->execute(); 
     }
