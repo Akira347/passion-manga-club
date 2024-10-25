@@ -33,8 +33,24 @@ nav ul {
     align-items: center;
 }
 
-nav ul li {
-    vertical-align: auto;
+nav ul li form {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+    width: 220px;
+}
+
+.hidden {
+    height: 1px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: -10000px;
+    width: 1px;
+}
+
+textarea {
+    height: 150px;
 }
 
 a {
@@ -42,6 +58,15 @@ a {
     text-decoration: none;
     padding: 10px;
     color: black;
+}
+
+.align_center {
+    text-align: center;
+}
+
+.reviews {
+    width: 50%;
+    margin: auto;
 }
 
 .logout {
@@ -111,6 +136,30 @@ input {
 
 .error_nickname {
     color: red;
+}
+
+.mangas_list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: auto;
+}
+
+.manga_list {
+    margin: auto;
+    text-align: center;
+}
+
+.manga_list h3 {
+    color: grey;
+}
+
+.manga_list h2, .manga_list h3 {
+    max-width: 250px;
+}
+
+.cover_image {
+    max-height: 350px;
 }
 
 @media all and (max-width:960px) {
